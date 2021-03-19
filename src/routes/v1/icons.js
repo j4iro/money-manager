@@ -5,5 +5,6 @@ const iconController = require('../../controllers/iconController')
 
 router.route('/').get(iconController.find)
 router.route('/').post(iconController.create)
+router.route('/:id').put(iconController.update)
 
 module.exports = router
