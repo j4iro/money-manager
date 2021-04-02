@@ -7,6 +7,26 @@ class MoneyService {
   find() {
     return Money.find({ active: true })
   }
+
+  findByMonthAndYear({ month, year }) {
+    return Money.aggregate([
+      {
+        $project: {
+          category: 1,
+          date: 1,
+          day: { $dayOfMonth: '$date' },
+          month: { $month: '$date' },
+          year: { $year: '$date' },
+          amount: 1,
+          created_at: 1,
+          updated_at: 1,
+          active:1
+        },
+      },
+      { $match: { active: true, month, year } },
+    ])
+  }
+
   create(document) {
     return Money.create(document)
   }

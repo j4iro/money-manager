@@ -1,39 +1,60 @@
-// const MoneyService = require('../services/MoneyService')
-
-// const moneyService = new MoneyService()
+const MoneyService = require('../services/MoneyService')
+const moneyService = new MoneyService()
 
 async function find(req, res, next) {
   try {
-    const month = req.query.month
-    const year = req.query.year
+    const month = parseInt(req.query.month)
+    const year = parseInt(req.query.year)
 
-    // const result = await moneyService.findByMonthAndYear(month, year).lean()
+    const result = await moneyService.findByMonthAndYear({ month, year })
+
+    let totalIncome = 0,
+      totalExpenses = 0,
+      balance = 0
+
+    let documentsGroupByDay = []
 
     //Process data
+    result.forEach((element) => {
+
+      const type = element.category.type
+      const amount = element.amount
+
+      //Calc global info
+      totalExpenses += type === 'expense' ? amount : 0
+      totalIncome += type === 'income' ? amount : 0
+
+      //Search index of day
+      const indexDayFound = documentsGroupByDay.findIndex((e) => e.day === element.day)
+
+      if(indexDayFound === -1){
+
+          documentsGroupByDay.push({
+            day: element.day,
+            info: {
+              total_expenses: type === 'expense' ? amount : 0,
+              total_incomes: type === 'income' ? amount : 0,
+            },
+            details: [element],
+          })
+      }else{
+        documentsGroupByDay[indexDayFound].info.total_expenses += type === 'expense' ? amount : 0
+        documentsGroupByDay[indexDayFound].info.total_incomes += type === 'income' ? amount : 0
+        documentsGroupByDay[indexDayFound].details.push(element)
+      }
+    
+    })
+
+    balance = totalExpenses - totalIncome
+
     const resultFinal = [
       {
         month: month,
         year: year,
-        total_income: 85300,
-        total_expenses: 1420,
-        balance: 85300 - 1420,
-        detail: [
-          {
-            day: '05',
-            data: [
-              {
-                category: {
-                  name: 'food',
-                  type: 'expense',
-                },
-                icon: {
-                  icon: 'food',
-                },
-                amount: 250,
-              },
-            ],
-          },
-        ],
+        total_income: totalIncome,
+        total_expenses: totalExpenses,
+        balance: balance,
+        results: documentsGroupByDay,
       },
     ]
 
