@@ -47,16 +47,15 @@ async function find(req, res, next) {
 
     balance = totalExpenses - totalIncome
 
-    const resultFinal = [
-      {
+    const resultFinal = {
         month: month,
         year: year,
         total_income: totalIncome,
         total_expenses: totalExpenses,
         balance: balance,
         results: documentsGroupByDay,
-      },
-    ]
+      }
+    
 
     res.status(200).json({
       success: true,

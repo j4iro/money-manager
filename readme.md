@@ -4,10 +4,12 @@ App in development
 
 ## Contains
 
-1. Logger: [Winston](https://www.npmjs.com/package/winston)
-2. Linter: [Eslint](https://eslint.org/)
-3. Format: [Prettier](https://prettier.io/)
-4. Security: [Helmet](https://helmetjs.github.io/)
+- Logger: [Winston](https://www.npmjs.com/package/winston)
+- Validation: [Joi](https://joi.dev/)
+- Orm: [Mongoose](https://mongoosejs.com/)
+- Security: [Helmet](https://helmetjs.github.io/)
+- Linter: [Eslint](https://eslint.org/)
+- Format: [Prettier](https://prettier.io/)
 
 ## Skeleton
 
