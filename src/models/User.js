@@ -2,9 +2,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const getDateUtc = require('../utils/getDateUtc')
 
-const categorySchema = Schema(
+const userSchema = Schema(
   {
-    name: {
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
       type: String,
       required: true,
     },
@@ -13,24 +17,10 @@ const categorySchema = Schema(
       required: true,
       default: true,
     },
-    icon: {
-      icon: {
-        type: String,
-        required: true,
-      },
-      prefix: {
-        type: String,
-        required: true,
-      },
-    },
-    type: {
-      type: String,
-      enum: ['expense', 'improve'],
-    },
-    custom: {
+    isAdmin: {
       type: Boolean,
-      default: true,
       required: true,
+      default: false,
     },
   },
   {
@@ -42,4 +32,4 @@ const categorySchema = Schema(
   }
 )
 
-module.exports = mongoose.model('Category', categorySchema)
+module.exports = mongoose.model('User', userSchema)

@@ -1,5 +1,7 @@
+// import
 const CategoryService = require('../services/CategoryService')
 
+// instances
 const categoryService = new CategoryService()
 
 async function find(req, res, next) {

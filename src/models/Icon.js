@@ -27,4 +27,4 @@ const iconSchema = Schema(
   }
 )
 
-module.exports = mongoose.model('icon', iconSchema)
+module.exports = mongoose.model('Icon', iconSchema)

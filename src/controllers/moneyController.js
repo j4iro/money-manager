@@ -1,22 +1,30 @@
+// import
 const MoneyService = require('../services/MoneyService')
 
+// instances
 const moneyService = new MoneyService()
-
-async function find(req, res, next) {
-  try {
-    const result = await moneyService.find()
-    res.status(200).json({
-      success: true,
-      data: result,
-    })
-  } catch (err) {
-    next(err)
-  }
-}
 
 async function create(req, res, next) {
   try {
-    const document = req.body
+    // const userId = req.query.userId
+    const userId = '89awhd8'
+    const { date, amount, category } = req.body
+    const { name, type, icon } = category
+    
+    const document = {
+      date,
+      amount,
+      category: {
+        name,
+        type,
+        icon: {
+          icon: icon.icon,
+          prefix: icon.prefix,
+        },
+      },
+      userId,
+    }
+
     const result = await moneyService.create(document)
     res.status(201).json({
       success: true,
@@ -55,7 +63,7 @@ async function remove(req, res, next) {
 }
 
 module.exports = {
-  find,
+  // find,
   create,
   update,
   remove,

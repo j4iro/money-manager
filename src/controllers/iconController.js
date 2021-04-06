@@ -1,5 +1,7 @@
+// import
 const IconService = require('../services/IconService')
 
+// instances
 const iconService = new IconService()
 
 async function find(req, res, next) {

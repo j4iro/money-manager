@@ -4,11 +4,7 @@ const { ObjectId } = require('mongodb')
 class MoneyService {
   // constructor()
 
-  find() {
-    return Money.find({ active: true })
-  }
-
-  findByMonthAndYear({ month, year }) {
+  findByMonthAndYear({ month, year, userId }) {
     return Money.aggregate([
       {
         $project: {
@@ -20,10 +16,10 @@ class MoneyService {
           amount: 1,
           created_at: 1,
           updated_at: 1,
-          active:1
+          active: 1,
         },
       },
-      { $match: { active: true, month, year } },
+      { $match: { active: true, month, year, userId } },
     ])
   }
 

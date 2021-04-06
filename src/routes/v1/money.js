@@ -12,8 +12,6 @@ const {
   updateMoneySchema} = require('../../middlewares/schemas/money')
 
 //routes
-router.route('/').get(moneyController.find)
-
 router.route('/').post(verifyRequest(createMoneySchema), moneyController.create)
 
 router

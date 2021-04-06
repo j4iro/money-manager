@@ -4,6 +4,10 @@ const getDateUtc = require('../utils/getDateUtc')
 
 const moneySchema = Schema(
   {
+    userId:{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    },
     comment: {
       type: String,
       required: false,
@@ -52,4 +56,4 @@ const moneySchema = Schema(
   }
 )
 
-module.exports = mongoose.model('money', moneySchema)
+module.exports = mongoose.model('Money', moneySchema)
