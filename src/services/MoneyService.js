@@ -19,7 +19,7 @@ class MoneyService {
           active: 1,
         },
       },
-      { $match: { active: true, month, year, userId } },
+      { $match: { active: true, month, year, user_id: userId } },
     ])
   }
 

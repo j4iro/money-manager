@@ -8,7 +8,7 @@ async function find(req, res, next) {
   try {
     const month = parseInt(req.query.month)
     const year = parseInt(req.query.year)
-    // const userId = req.query.userId
+    // const {userId} = req.query
     const userId = '89awhd8'
 
     const result = await moneyService.findByMonthAndYear({

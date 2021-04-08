@@ -4,7 +4,7 @@ const getDateUtc = require('../utils/getDateUtc')
 
 const moneySchema = Schema(
   {
-    userId:{
+    user_id:{
       type: Schema.Types.ObjectId,
       ref: "User"
     },

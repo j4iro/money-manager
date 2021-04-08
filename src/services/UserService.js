@@ -4,7 +4,7 @@ const bcryptjs = require('bcryptjs')
 class UserService {
 
   getUser({email}){
-    return User.findOne({ email })
+    return User.findOne({ email, active: true})
   }
 
   async create({user}){

@@ -6,7 +6,7 @@ const moneyService = new MoneyService()
 
 async function create(req, res, next) {
   try {
-    // const userId = req.query.userId
+    // const {userId} = req.query
     const userId = '89awhd8'
     const { date, amount, category } = req.body
     const { name, type, icon } = category
