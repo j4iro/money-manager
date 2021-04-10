@@ -6,7 +6,11 @@ const helmet = require('helmet')
 const dbDatabase = require('./config/mongodb')
 // Import Middlewares
 const notFoundHandler = require('./middlewares/notFoundHandler')
-const { errorHandler, logError } = require('./middlewares/errorHandler')
+const {
+  errorHandler,
+  logError,
+  wrapErrors,
+} = require('./middlewares/errorHandler')
 
 // Utils
 const { config } = require('./config/config')
@@ -31,6 +35,7 @@ app.use(notFoundHandler)
 
 //Errors Middleware
 app.use(logError)
+app.use(wrapErrors)
 app.use(errorHandler)
 
 app.listen(config.port, () => {

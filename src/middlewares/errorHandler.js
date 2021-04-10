@@ -1,15 +1,12 @@
 const logger = require('../config/logger')
 const { config } = require('../config/config')
+const boom = require('@hapi/boom')
 
 function withErrorStack(error, stack) {
-  let rptaJson = {
-    success: false,
-  }
   if (config.NODE_ENV !== 'production') {
-    rptaJson.msg = error
-    rptaJson.stack = stack
+    return { success: false, ...error, stack }
   }
-  return rptaJson
+  return { success: false, ...error }
 }
 
 function logError(err, req, res, next) {
@@ -17,12 +14,26 @@ function logError(err, req, res, next) {
   next(err)
 }
 
+function wrapErrors(err, req, res, next) {
+  if (!err.isBoom) {
+    next(boom.badImplementation(err))
+  }
+
+  next(err)
+}
+
 function errorHandler(err, req, res, next) /*eslint-disable-line*/ {
-  res.status(err.status || 500)
-  res.json(withErrorStack(err.message, err.stack))
+  const {
+    output: { statusCode, payload },
+  } = err
+
+  // console.log(err)
+  res.status(statusCode)
+  res.json(withErrorStack(payload, err.stack))
 }
 
 module.exports = {
   logError,
   errorHandler,
+  wrapErrors,
 }
