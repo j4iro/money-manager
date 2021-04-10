@@ -7,6 +7,7 @@ const config = {
   errorLogs: process.env.ERROR_LOGS || 'src/logs/errors.log',
   maxSizeLogsFile: process.env.MAX_SIZE_LOGS_FILE || 512000,
   urlMongoConnection: process.env.URL_MONGO_CONNECTION || false,
+  
   defaultAdminPassword: process.env.DEFAULT_ADMIN_PASSWORD,
   defaultUserPassword: process.env.DEFAULT_USER_PASSWORD,
   authJwtSecret: process.env.AUTH_JWT_SECRET,

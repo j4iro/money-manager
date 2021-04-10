@@ -35,8 +35,4 @@ app.use(errorHandler)
 
 app.listen(config.port, () => {
   logger.info(`Listening http://localhost:${config.port}`)
-  // logger.info('%o', {
-  //   yuu: 'jjjjj',
-  //   b: { uu: 'kkkk', k: { u: { eee: 7777 } } },
-  // })
 })
