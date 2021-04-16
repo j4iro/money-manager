@@ -22,7 +22,7 @@ router
 router
   .route('/:id')
   .put(
-    verifyRequest({id: categoryIdSchema}, "params"),
+    verifyRequest({ id: categoryIdSchema }, 'params'),
     verifyRequest(updateCategorySchema),
     categoryController.update
   )
