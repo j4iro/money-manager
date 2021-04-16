@@ -4,8 +4,12 @@ const jwt = require('jsonwebtoken')
 
 const { config } = require('../config/config')
 
+// services
 const ApikeyService = require('../services/ApikeyService')
 const apikeyService = new ApikeyService()
+
+const UserService = require('../services/UserService')
+const userService = new UserService()
 
 //Basic strategy
 require('../utils/auth/strategies/basic')
@@ -56,6 +60,23 @@ function signIn(req, res, next) {
   })(req, res, next)
 }
 
+async function signUp(req, res, next) {
+  const { body: user } = req
+
+  try {
+    const userCreated = await userService.create({ user })
+
+    res.status(201).json({
+      success: true,
+      message: 'user created successfully',
+      data: userCreated,
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   signIn,
+  signUp,
 }
