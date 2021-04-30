@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const verifyRequest = require('../../middlewares/verifyRequest')
+const scopesValidationHandler = require('../../middlewares/scopesValidationHandler')
 
 //controllers
 const iconController = require('../../controllers/iconController')
@@ -14,16 +15,25 @@ const {
 
 //routes
 // Get icons
-router.route('/').get(iconController.find)
+router
+  .route('/')
+  .get(scopesValidationHandler(['read:icon']), iconController.find)
 
-// Create a new icon 
-router.route('/').post(verifyRequest(createIconSchema), iconController.create)
+// Create a new icon
+router
+  .route('/')
+  .post(
+    scopesValidationHandler(['create:icon']),
+    verifyRequest(createIconSchema),
+    iconController.create
+  )
 
 // Update a icon by id
 router
   .route('/:id')
   .put(
-    verifyRequest({ id: iconIdSchema }, "params"),
+    scopesValidationHandler(['update:icon']),
+    verifyRequest({ id: iconIdSchema }, 'params'),
     verifyRequest(updateIconSchema),
     iconController.update
   )

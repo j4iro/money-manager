@@ -19,7 +19,11 @@ app.use(
   require('./stats')
 )
 
-app.use('/icons', require('./icons'))
+app.use(
+  '/icons',
+  passport.authenticate('jwt', { session: false }),
+  require('./icons')
+)
 
 app.use(
   '/categories',

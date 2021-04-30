@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const verifyRequest = require('../../middlewares/verifyRequest')
+const scopesValidationHandler = require('../../middlewares/scopesValidationHandler')
 
 //controllers
 const moneyController = require('../../controllers/moneyController')
@@ -9,19 +10,33 @@ const moneyController = require('../../controllers/moneyController')
 const {
   moneyIdSchema,
   createMoneySchema,
-  updateMoneySchema} = require('../../middlewares/schemas/money')
+  updateMoneySchema,
+} = require('../../middlewares/schemas/money')
 
 //routes
-router.route('/').post(verifyRequest(createMoneySchema), moneyController.create)
+router
+  .route('/')
+  .post(
+    scopesValidationHandler(['create:money']),
+    verifyRequest(createMoneySchema),
+    moneyController.create
+  )
 
 router
   .route('/:id')
   .put(
+    scopesValidationHandler(['update:money']),
     verifyRequest({ id: moneyIdSchema }, 'params'),
     verifyRequest(updateMoneySchema),
     moneyController.update
   )
 
-router.route('/:id').delete(verifyRequest({ id: moneyIdSchema }, "params"), moneyController.remove)
+router
+  .route('/:id')
+  .delete(
+    scopesValidationHandler(['delete:money']),
+    verifyRequest({ id: moneyIdSchema }, 'params'),
+    moneyController.remove
+  )
 
 module.exports = router
