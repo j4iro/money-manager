@@ -32,8 +32,7 @@ const publicScopes = [
   'delete:money',
   'read:category',
   'create:category',
-  'update:category',
-  'delete:category',
+  'read:icon',
 ]
 
 const apiKeys = [
@@ -54,7 +53,6 @@ function generateRandomToken() {
 
 async function seedApiKeys() {
   try {
-
     //connect to mongodb
     await dbDatabase.connect()
     debug(chalk.green('Database connected'))

@@ -29,8 +29,18 @@ const categorySchema = Schema(
     },
     custom: {
       type: Boolean,
-      default: true,
+      default: false,
       required: true,
+    },
+    user: {
+      _id: {
+        type: Schema.Types.ObjectId,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: false,
+      },
     },
   },
   {

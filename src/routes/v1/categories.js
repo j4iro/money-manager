@@ -8,9 +8,8 @@ const categoryController = require('../../controllers/categoryController')
 
 // schemas
 const {
-  categoryIdSchema,
+  // categoryIdSchema,
   createCategorySchema,
-  updateCategorySchema,
 } = require('../../middlewares/schemas/categories')
 
 // routes
@@ -24,15 +23,6 @@ router
     scopesValidationHandler(['create:category']),
     verifyRequest(createCategorySchema),
     categoryController.create
-  )
-
-router
-  .route('/:id')
-  .put(
-    scopesValidationHandler(['update:category']),
-    verifyRequest({ id: categoryIdSchema }, 'params'),
-    verifyRequest(updateCategorySchema),
-    categoryController.update
   )
 
 module.exports = router

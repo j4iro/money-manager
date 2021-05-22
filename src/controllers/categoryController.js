@@ -1,4 +1,5 @@
 // import
+const _ = require('lodash')
 const CategoryService = require('../services/CategoryService')
 
 // instances
@@ -6,7 +7,8 @@ const categoryService = new CategoryService()
 
 async function find(req, res, next) {
   try {
-    const result = await categoryService.getCategories().lean()
+    const userId = req.user._id
+    const result = await categoryService.getCategories({ userId }).lean()
 
     res.status(200).json({
       success: true,
@@ -19,9 +21,31 @@ async function find(req, res, next) {
 
 async function create(req, res, next) {
   try {
-    const documentCategory = req.body
+    const { name, type, icon } = req.body
+    const documentCategory = {
+      name,
+      type,
+      icon: {
+        prefix: icon.prefix,
+        icon: icon.icon,
+      },
+      user: {
+        _id: req.user._id,
+        email: req.user.email,
+      },
+      custom: true,
+    }
 
-    const result = await categoryService.create(documentCategory)
+    //create in database
+    const resultDb = await categoryService.create(documentCategory)
+    const result = _.pick(resultDb, [
+      '_id',
+      'name',
+      'type',
+      'icon',
+      'created_at',
+    ])
+
     res.status(201).json({
       success: true,
       msg: 'Category created',
@@ -32,24 +56,7 @@ async function create(req, res, next) {
   }
 }
 
-async function update(req, res, next) {
-  try {
-    const id = req.params.id
-    const documentCategory = req.body
-
-    const result = await categoryService.update(id, documentCategory).lean()
-    res.status(200).json({
-      success: true,
-      msg: 'Category Updated',
-      data: result,
-    })
-  } catch (err) {
-    next(err)
-  }
-}
-
 module.exports = {
   find,
   create,
-  update,
 }
