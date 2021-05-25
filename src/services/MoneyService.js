@@ -5,6 +5,7 @@ class MoneyService {
   // constructor()
 
   findByMonthAndYear({ month, year, userId }) {
+    // the properties from $match should be is in $project for it works
     return Money.aggregate([
       {
         $project: {
@@ -17,9 +18,17 @@ class MoneyService {
           created_at: 1,
           updated_at: 1,
           active: 1,
+          'user._id': 1,
         },
       },
-      { $match: { active: true, month, year, user_id: userId } },
+      {
+        $match: {
+          active: true,
+          month,
+          year,
+          'user._id': ObjectId(userId),
+        },
+      },
     ])
   }
 

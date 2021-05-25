@@ -4,10 +4,6 @@ const getDateUtc = require('../utils/getDateUtc')
 
 const moneySchema = Schema(
   {
-    user_id:{
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    },
     comment: {
       type: String,
       required: false,
@@ -44,6 +40,16 @@ const moneySchema = Schema(
           type: String,
           required: true,
         },
+      },
+    },
+    user: {
+      _id: {
+        type: Schema.Types.ObjectId,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: false,
       },
     },
   },
