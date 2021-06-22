@@ -2,19 +2,19 @@ const User = require('../models/User')
 const bcryptjs = require('bcryptjs')
 
 class UserService {
-
-  getUser({email}){
-    return User.findOne({ email, active: true})
+  getUser({ email }) {
+    return User.findOne({ email, active: true })
   }
 
-  async create({user}){
+  async create({ user }) {
     const { name, email, password } = user
     const hashedPassword = await bcryptjs.hash(password, 10)
 
     return User.create({
-      name,email,password: hashedPassword
+      name,
+      email,
+      password: hashedPassword,
     })
-
   }
 }
 
