@@ -19,6 +19,8 @@ const config = {
   authJwtSecret: process.env.AUTH_JWT_SECRET,
   publicApiKeyToken: process.env.PUBLIC_API_KEY_TOKEN,
   adminApiKeyToken: process.env.ADMIN_API_KEY_TOKEN,
+
+  tokenBearerTest: process.env.TOKEN_BEARER_TEST,
 }
 
 module.exports = { config }

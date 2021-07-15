@@ -5,45 +5,7 @@ const debug = require('debug')('app:scripts:icons')
 const dbDatabase = require('../../config/mongodb')
 
 const Icon = require('../../models/Icon')
-
-const icons = [
-  {
-    prefix: 'fas',
-    icon: 'fa-medkit',
-  },
-  {
-    prefix: 'fas',
-    icon: 'fa-camera',
-  },
-  {
-    prefix: 'fas',
-    icon: 'fa-utensils',
-  },
-  {
-    prefix: 'fas',
-    icon: 'fa-hamburger',
-  },
-  {
-    prefix: 'fab',
-    icon: 'fa-apple',
-  },
-  {
-    prefix: 'fas',
-    icon: 'fa-pizza-slice',
-  },
-  {
-    prefix: 'fas',
-    icon: 'fa-ice-cream',
-  },
-  {
-    prefix: 'fas',
-    icon: 'fa-egg',
-  },
-  {
-    prefix: 'fas',
-    icon: 'fa-bycicle',
-  },
-]
+const { iconsMock } = require('../../utils/mocks/icons')
 
 async function seedIcons() {
   try {
@@ -56,7 +18,7 @@ async function seedIcons() {
     debug(chalk.green('Icon Collection dropped'))
 
     //insert icons
-    await Icon.insertMany(icons)
+    await Icon.insertMany(iconsMock)
     debug(chalk.green('Icon Inserted'))
     return process.exit(0)
   } catch (err) {

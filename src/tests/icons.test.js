@@ -3,29 +3,42 @@ const supertest = require('supertest')
 const app = require('../app')
 const { config } = require('../config/config')
 
+const Icon = require('../models/Icon')
+const { iconsMock } = require('../utils/mocks/icons')
+
 const api = supertest(app)
 
-describe('Auth', () => {
-  test('sign in', async () => {
-    //credentials
-    const user = 'maria@undefined.sh'
-    const password = config.defaultUserPassword
+describe('Icons', () => {
+  // 401 unauthorized
+  test('Icons 401', async () => {
+    await api.get('/v1/icons/').expect(401)
+  })
 
+  // 200 success
+  test('Icons list', async () => {
     await api
-      .post('/v1/auth/sign-in')
-      .auth(user, password)
-      .send({
-        apiKeyToken: config.adminApiKeyToken,
-      })
-      .set('Accept', 'application/json')
-      .expect(200)
+      .get('/v1/icons/')
+      .set('Authorization', `Bearer ${config.tokenBearerTest}`)
       .expect('Content-Type', /json/)
-      .then((response) => {
-        expect(response.body.user.email).toEqual(user)
-        expect(response.body).toHaveProperty('token')
-        // done()
+      .expect(200)
+      .then(function (response) {
+        // console.log(response.body)
+        expect(response.body.data).toHaveLength(iconsMock.length)
+        const contents = response.body.data.map((r) => r.icon)
+        expect(contents).toContain('fa-pizza-slice')
       })
-    // .catch((err) => done(err))
+  })
+})
+
+beforeEach(async () => {
+  //delete icons
+  await Icon.deleteMany({})
+
+  //insert mocks
+  iconsMock.forEach(async (element) => {
+    // console.log(element)
+    const iconObject = new Icon(element)
+    await iconObject.save()
   })
 })
 
